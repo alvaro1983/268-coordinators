@@ -1,3 +1,6 @@
+To follow along with the episode, check out the `starting` tag.
+
+
 ## Sample Code
 
 This code is part of an [NSScreencast](http://nsscreencast.com) episode.
