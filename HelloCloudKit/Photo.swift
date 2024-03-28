@@ -14,9 +14,9 @@ class Photo {
     
     let record: CKRecord
     
-    init(fullsizeImage: UIImage, thumbnail: UIImage, restaurantID: CKRecordID) {
+    init(fullsizeImage: UIImage, thumbnail: UIImage, restaurantID: CKRecord.ID) {
         record = CKRecord(recordType: Photo.recordType)
-        record["restaurant"] = CKReference(recordID: restaurantID, action: .deleteSelf)
+        record["restaurant"] = CKRecord.Reference(recordID: restaurantID, action: .deleteSelf)
         
         record["image"] = CKAsset(image: fullsizeImage, compression: 0.9)
         record["thumbnail"] = CKAsset(image: thumbnail, compression: 0.7)

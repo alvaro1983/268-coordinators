@@ -50,7 +50,7 @@ class RestaurantsViewController : UITableViewController {
         if let imageURL = restaurant.imageFileURL {
             if let data = try? Data(contentsOf: imageURL) {
                 cell.imageView?.image = UIImage(data: data)
-                cell.imageView?.contentMode = UIViewContentMode.scaleAspectFill
+                cell.imageView?.contentMode = UIView.ContentMode.scaleAspectFill
                 cell.imageView?.clipsToBounds = true
             }
         } else {

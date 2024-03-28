@@ -17,7 +17,7 @@ class Restaurant {
     let location: CLLocation
     let imageFileURL: URL?
     
-    var recordID: CKRecordID?
+    var recordID: CKRecord.ID?
     
     init(record: CKRecord) {
         recordID = record.recordID

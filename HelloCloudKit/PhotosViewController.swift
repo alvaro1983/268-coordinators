@@ -20,13 +20,13 @@ class PhotoCell : UICollectionViewCell {
 
 class PhotosViewController : UICollectionViewController {
     
-    var restaurantID: CKRecordID!
+    var restaurantID: CKRecord.ID!
     let database = CKContainer.default().publicCloudDatabase
     
     var photos: [CKRecord] = []
     
     lazy var spinner: UIActivityIndicatorView = {
-        let spinner = UIActivityIndicatorView(activityIndicatorStyle: .whiteLarge)
+        let spinner = UIActivityIndicatorView(style: .whiteLarge)
         spinner.hidesWhenStopped = true
         spinner.translatesAutoresizingMaskIntoConstraints = false
         self.view.addSubview(spinner)
@@ -68,7 +68,7 @@ class PhotosViewController : UICollectionViewController {
         layout.itemSize = CGSize(width: itemSize, height: itemSize)
     }
     
-    private func loadPhotos(cursor: CKQueryCursor? = nil) {
+    private func loadPhotos(cursor: CKQueryOperation.Cursor? = nil) {
         spinner.startAnimating()
         
         let operation: CKQueryOperation
@@ -77,7 +77,7 @@ class PhotosViewController : UICollectionViewController {
             operation = CKQueryOperation(cursor: c)
         } else {
         
-            let predicate = NSPredicate(format: "restaurant == %@", CKReference(recordID: restaurantID, action: .deleteSelf))
+            let predicate = NSPredicate(format: "restaurant == %@", CKRecord.Reference(recordID: restaurantID, action: .deleteSelf))
             let query = CKQuery(recordType: Photo.recordType, predicate: predicate)
             query.sortDescriptors = [
                 NSSortDescriptor(key: "creationDate", ascending: false)
@@ -139,8 +139,9 @@ class PhotosViewController : UICollectionViewController {
 }
 
 extension PhotosViewController : UIImagePickerControllerDelegate, UINavigationControllerDelegate {
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
-        let originalImage = info[UIImagePickerControllerOriginalImage] as! UIImage
+    private func imagePickerController(_ picker: UIImagePickerController,
+                                       didFinishPickingMediaWithInfo info: [String : Any]) {
+        let originalImage = info[UIImagePickerController.InfoKey.originalImage.rawValue] as! UIImage
         
         dismiss(animated: true, completion: {
             self.spinner.startAnimating()

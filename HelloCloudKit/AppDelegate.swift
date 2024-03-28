@@ -28,7 +28,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
     var coordinator: AppCoordinator?
 
-    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
+    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
 
         window = UIWindow()
         
@@ -43,7 +43,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         window?.makeKeyAndVisible()
         
         setupAppearance()
-        checkAccountStatus()
+        //checkAccountStatus()
         
         
         NotificationCenter.default.addObserver(forName: .CKAccountChanged,
@@ -77,6 +77,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 
             case .restricted:
                 print("restricted")
+            default:
+                print("unknown")
             }
         }
     }
@@ -119,7 +121,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         let navbar = UINavigationBar.appearance()
         navbar.titleTextAttributes = [
-            NSForegroundColorAttributeName: UIColor(red:0.46, green:0.38, blue:0.22, alpha:1.00)
+            NSAttributedString.Key.foregroundColor: UIColor(red:0.46, green:0.38, blue:0.22, alpha:1.00)
         ]
     }
 }

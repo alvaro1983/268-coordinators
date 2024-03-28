@@ -31,7 +31,7 @@ class Restaurants {
     }
     
     static func reviews(for restaurant: Restaurant, completion: @escaping ([Review], Error?) -> Void) {
-        let ref = CKReference(recordID: restaurant.recordID!, action: .deleteSelf)
+        let ref = CKRecord.Reference(recordID: restaurant.recordID!, action: .deleteSelf)
         let predicate = NSPredicate(format: "restaurant == %@", ref)
         let query = CKQuery(recordType: Review.recordType, predicate: predicate)
         let queryOperation = CKQueryOperation(query: query)

@@ -29,7 +29,7 @@ struct ImageHelper {
         var fileURL = FileManager.default.temporaryDirectory
         let filename = UUID().uuidString
         fileURL.appendPathComponent(filename)
-        let data = UIImageJPEGRepresentation(image, compression)!
+        let data = image.jpegData(compressionQuality: compression)!
         try! data.write(to: fileURL)
         return fileURL
     }
