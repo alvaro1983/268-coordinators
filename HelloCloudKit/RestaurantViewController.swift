@@ -11,6 +11,11 @@ import CloudKit
 
 class RestaurantViewController : UITableViewController {
     
+    static func makeFromStoryboard() -> RestaurantViewController {
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        return storyboard.instantiateViewController(withIdentifier: String(describing: self)) as! RestaurantViewController
+    }
+
     enum Sections : Int {
         case info
         case reviews

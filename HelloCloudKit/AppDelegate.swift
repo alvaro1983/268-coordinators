@@ -10,7 +10,11 @@ import UIKit
 import CoreLocation
 import CloudKit
 
-class AppCoordinator {
+protocol RestaurantViewControllerDelegate: AnyObject {
+    func didSelect(restarurant: Restaurant)
+}
+
+class AppCoordinator: RestaurantViewControllerDelegate {    
     let navigationController: UINavigationController
     
     init(navigationController: UINavigationController) {
@@ -18,6 +22,14 @@ class AppCoordinator {
     }
     
     func start() {
+        let restaurantVC = navigationController.topViewController as! RestaurantsViewController
+        restaurantVC.delegate = self
+    }
+    
+    func didSelect(restarurant: Restaurant) {
+        let restaurantDetailVC = RestaurantViewController.makeFromStoryboard()
+        restaurantDetailVC.restaurant = restarurant
+        navigationController.pushViewController(restaurantDetailVC, animated: true)
     }
 }
 
@@ -27,7 +39,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
     var coordinator: AppCoordinator?
-
+    
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
 
         window = UIWindow()
@@ -46,12 +58,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         //checkAccountStatus()
         
         
-        NotificationCenter.default.addObserver(forName: .CKAccountChanged,
-                                               object: nil,
-                                               queue: nil) { [weak self] (note) in
-                                                print("Identity changed.")
-                                                self?.checkAccountStatus()
-        }
+//        NotificationCenter.default.addObserver(forName: .CKAccountChanged,
+//                                               object: nil,
+//                                               queue: nil) { [weak self] (note) in
+//                                                print("Identity changed.")
+//                                                self?.checkAccountStatus()
+//        }
         
         return true
     }

@@ -9,6 +9,12 @@
 import UIKit
 
 class RestaurantsViewController : UITableViewController {
+    static func makeFromStoryboard() -> RestaurantsViewController {
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        return storyboard.instantiateViewController(withIdentifier: String(describing: self)) as! RestaurantsViewController
+    }
+
+    weak var delegate: RestaurantViewControllerDelegate?
     
     var restaurants: [Restaurant] = []
  
@@ -60,5 +66,10 @@ class RestaurantsViewController : UITableViewController {
         cell.textLabel?.text = restaurant.name
         cell.detailTextLabel?.text = restaurant.address
         return cell
+    }
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let restaurant = restaurants[indexPath.row]
+        delegate?.didSelect(restarurant: restaurant)
     }
 }
