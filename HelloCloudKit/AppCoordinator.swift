@@ -31,6 +31,12 @@ extension AppCoordinator: RestaurantsViewControllerDelegate {
 }
 
 extension AppCoordinator: RestaurantViewControllerDelegate {
+    func photosTapped(_ vc: RestaurantViewController) {
+        let photosVC = PhotosViewController.makeFromStoryboard()
+        photosVC.restaurantID = vc.restaurant?.recordID
+        navigationController.pushViewController(photosVC, animated: true)
+    }
+    
     func addReviewTapped(_ vc: RestaurantViewController) {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let nav = storyboard.instantiateViewController(withIdentifier: "AddReviewNavigationController") as! UINavigationController

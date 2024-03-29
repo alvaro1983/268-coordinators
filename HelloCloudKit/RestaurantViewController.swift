@@ -11,6 +11,7 @@ import CloudKit
 
 protocol RestaurantViewControllerDelegate: AnyObject {
     func addReviewTapped(_ vc: RestaurantViewController)
+    func photosTapped(_ vc: RestaurantViewController)
 }
 
 class RestaurantViewController : UITableViewController {
@@ -66,16 +67,7 @@ class RestaurantViewController : UITableViewController {
             imageView.image = UIImage(data: data)
         }
     }
-    
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        guard let restaurantID = restaurant?.recordID else { return }
         
-        if segue.identifier == "photosSegue" {
-            let destination = segue.destination as! PhotosViewController
-            destination.restaurantID = restaurantID
-        }
-    }
-    
     func insertReview(_ review: Review) {
         reviews.insert(review, at: 0)
         let indexPath = IndexPath(row: 0, section: Sections.reviews.rawValue)
@@ -116,5 +108,14 @@ class RestaurantViewController : UITableViewController {
             cell.ratingView.value = CGFloat(review.stars)
             return cell
         }
+    }
+    
+    override func tableView(_ tableView: UITableView,
+                            didSelectRowAt indexPath: IndexPath) {
+        guard indexPath.section == Sections.info.rawValue && indexPath.row == 1 else{
+            return
+        }
+        
+        restaurantDelegate?.photosTapped(self)
     }
 }

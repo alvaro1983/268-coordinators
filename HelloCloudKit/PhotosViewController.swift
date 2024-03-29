@@ -19,7 +19,11 @@ class PhotoCell : UICollectionViewCell {
 }
 
 class PhotosViewController : UICollectionViewController {
-    
+    static func makeFromStoryboard() -> PhotosViewController {
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        return storyboard.instantiateViewController(withIdentifier: String(describing: self)) as! PhotosViewController
+    }
+
     var restaurantID: CKRecord.ID!
     let database = CKContainer.default().publicCloudDatabase
     
