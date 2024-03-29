@@ -9,7 +9,7 @@
 import UIKit
 import HCSStarRatingView
 
-class ReviewViewController : UIViewController {
+class ReviewViewController : UIViewController {    
     @IBOutlet weak var nameTextField: UITextField!
     @IBOutlet weak var ratingView: HCSStarRatingView!
     @IBOutlet weak var commentTextView: UITextView!

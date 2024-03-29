@@ -8,13 +8,17 @@
 
 import UIKit
 
+protocol RestaurantsViewControllerDelegate: AnyObject {
+    func didSelect(restarurant: Restaurant)
+}
+
 class RestaurantsViewController : UITableViewController {
     static func makeFromStoryboard() -> RestaurantsViewController {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         return storyboard.instantiateViewController(withIdentifier: String(describing: self)) as! RestaurantsViewController
     }
 
-    weak var delegate: RestaurantViewControllerDelegate?
+    weak var delegate: RestaurantsViewControllerDelegate?
     
     var restaurants: [Restaurant] = []
  

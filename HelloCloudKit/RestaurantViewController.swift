@@ -9,7 +9,13 @@
 import UIKit
 import CloudKit
 
+protocol RestaurantViewControllerDelegate: AnyObject {
+    func addReviewTapped(_ vc: RestaurantViewController)
+}
+
 class RestaurantViewController : UITableViewController {
+    
+    weak var restaurantDelegate: RestaurantViewControllerDelegate?
     
     static func makeFromStoryboard() -> RestaurantViewController {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
@@ -48,6 +54,10 @@ class RestaurantViewController : UITableViewController {
         }
     }
     
+    @IBAction func addReview(_ sender: UIBarButtonItem) {
+        restaurantDelegate?.addReviewTapped(self)
+    }
+    
     private func configureUI() {
         guard let restaurant = self.restaurant else { return }
         title = restaurant.name
@@ -60,26 +70,13 @@ class RestaurantViewController : UITableViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         guard let restaurantID = restaurant?.recordID else { return }
         
-        if segue.identifier == "addReviewSegue" {
-            let destinationNav = segue.destination as! UINavigationController
-            let destination = destinationNav.viewControllers.first as! ReviewViewController
-            destination.addReviewBlock = { [weak self] vc in
-                let review = Review(author: vc.nameTextField.text ?? "",
-                                    comment: vc.commentTextView.text,
-                                    rating: Float(vc.ratingView.value),
-                                    restaurantID: restaurantID)
-                Restaurants.add(review: review)
-                self?.dismiss(animated: true, completion: {
-                    self?.insertReview(review)
-                })
-            }
-        } else if segue.identifier == "photosSegue" {
+        if segue.identifier == "photosSegue" {
             let destination = segue.destination as! PhotosViewController
-            destination.restaurantID = restaurant!.recordID!
+            destination.restaurantID = restaurantID
         }
     }
     
-    private func insertReview(_ review: Review) {
+    func insertReview(_ review: Review) {
         reviews.insert(review, at: 0)
         let indexPath = IndexPath(row: 0, section: Sections.reviews.rawValue)
         tableView.insertRows(at: [indexPath], with: .top)
